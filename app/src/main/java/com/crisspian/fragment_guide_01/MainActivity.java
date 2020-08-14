@@ -1,11 +1,13 @@
 package com.crisspian.fragment_guide_01;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.View;
 
 import com.crisspian.fragment_guide_01.databinding.ActivityMainBinding;
@@ -15,12 +17,27 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private boolean isFragmentShow = false;
 
+    public static final String KEY_ONE ="KEY_ONE";
+
+    protected void onSaveInstanceState(@NonNull Bundle outState){
+        outState.putBoolean(KEY_ONE, isFragmentShow);
+        super.onSaveInstanceState(outState);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        if(savedInstanceState !=null){
+            isFragmentShow =savedInstanceState.getBoolean(KEY_ONE);
+        }
+
+        if(isFragmentShow){
+            binding.button.setText("Close");
+        }
+        
         binding.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,10 +79,9 @@ public class MainActivity extends AppCompatActivity {
         }
         binding.button.setText("Open");
         isFragmentShow = false;
-
-
-
     }
+
+
 
 
     }
