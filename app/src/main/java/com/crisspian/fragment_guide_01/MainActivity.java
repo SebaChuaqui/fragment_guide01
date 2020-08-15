@@ -16,11 +16,12 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private boolean isFragmentShow = false;
-
     public static final String KEY_ONE ="KEY_ONE";
+    public static final String KEY_TWO ="KEY_TWO";
 
     protected void onSaveInstanceState(@NonNull Bundle outState){
         outState.putBoolean(KEY_ONE, isFragmentShow);
+        outState.putString(KEY_TWO, "OPEN");
         super.onSaveInstanceState(outState);
     }
 
@@ -32,17 +33,19 @@ public class MainActivity extends AppCompatActivity {
 
         if(savedInstanceState !=null){
             isFragmentShow =savedInstanceState.getBoolean(KEY_ONE);
+            binding.button.setText(savedInstanceState.getString(KEY_TWO,"ups"));
+
         }
 
         if(isFragmentShow){
             binding.button.setText("Close");
         }
-        
+
         binding.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!isFragmentShow) {
-                  showFragment();
+                  showFragment("Wena Loco");
                 } else {
                     closeFragment();
                 }
@@ -51,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void showFragment() {
+    private void showFragment(String saludo) {
         // Generamos la instancia del fragmento gracias al factory method
-        FirstFragment firstFragment = FirstFragment.newInstance("","");
+        FirstFragment firstFragment = FirstFragment.newInstance(saludo);
         //Obtener instancia del FragmentManager
         FragmentManager fragmentManager = getSupportFragmentManager();
         //Obtenemos e instanciamos una transacción
